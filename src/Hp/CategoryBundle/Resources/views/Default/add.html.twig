@@ -1,0 +1,21 @@
+{% extends '::layout.html.twig' %}
+
+{% block title %}Contact{% endblock%}
+
+{% block body %}
+    <header>
+        <h1>Contact symblog</h1>
+    </header>
+
+    <p>Want to contact symblog?</p>
+
+    <form action="{{ path('_hp_category_add') }}" method="post" {{ form_enctype(form) }} class="blogger">
+        {{ form_errors(form) }}
+        {{ form_row(form.id_parent) }}
+        {{ form_row(form.category_name) }}
+        {{ form_row(form.file) }}
+        {{ form_row(form.is_active) }}
+        {{ form_row(form.save) }}
+        {{ form_rest(form) }}
+    </form>
+{% endblock %}

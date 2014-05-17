@@ -1,0 +1,3 @@
+_simple_secured:
+    resource: "@SimpleProfileBundle/Controller/SecurityController.php"
+    type:     annotation

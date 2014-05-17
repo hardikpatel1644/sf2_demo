@@ -1,0 +1,11 @@
+hp_category:
+    resource: "@HpCategoryBundle/Resources/config/routing.yml"
+    prefix:   /
+
+simple_profile:
+    resource: "@SimpleProfileBundle/Resources/config/routing.yml"
+    prefix:   /
+
+hp_user:
+    resource: "@HpUserBundle/Resources/config/routing.yml"
+    prefix:   /

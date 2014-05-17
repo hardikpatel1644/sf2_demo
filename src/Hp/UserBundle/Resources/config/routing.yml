@@ -1,0 +1,18 @@
+
+account_register:
+    path:     /register
+    defaults: { _controller: HpUserBundle:Account:register }
+
+account_create:
+    path:     /register/create
+    defaults: { _controller: HpUserBundle:Account:create }
+
+_category:
+    resource: "@HpCategoryBundle/Controller/DefaultController.php"
+    type:     annotation    
+_secured:
+    resource: "@HpUserBundle/Controller/SecuredController.php"
+    type:     annotation    
+_account:
+    resource: "@HpUserBundle/Controller/AccountController.php"
+    type:     annotation       

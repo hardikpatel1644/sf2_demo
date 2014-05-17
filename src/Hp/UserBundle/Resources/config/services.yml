@@ -1,0 +1,7 @@
+parameters:
+#    hp_user.example.class: Hp\UserBundle\Example
+
+services:
+#    hp_user.example:
+#        class: %hp_user.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

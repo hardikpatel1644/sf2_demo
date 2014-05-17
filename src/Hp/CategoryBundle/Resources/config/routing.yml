@@ -1,0 +1,3 @@
+hp_category_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: HpCategoryBundle:Default:index }

@@ -1,0 +1,21 @@
+<table>
+    <tr>
+        <th>Category Image</th>
+        <th>Category Name</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+   {% for asCat in asCategory %}
+       <tr>
+           <td> <img src="{{ asset('uploads/logo.png') }}" >{{ asCat.categoryImage }}</td>
+           <td> {{ asCat.categoryName }}</td>
+           <td> {{ asCat.isActive }}</td>
+           <td> <a href="{{ path('_hp_category_delete',{ 'id': asCat.id } ) }}">Delete</a></td>
+           <td> <a href="{{ path('_hp_category_edit',{ 'id': asCat.id } ) }}">Edit</a></td>
+       </tr>
+   {% endfor %}
+    
+</table>
+   
+<a href="{{ path('_hp_category_add') }}">Add Category</a>
+
