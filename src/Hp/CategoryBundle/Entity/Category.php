@@ -2,11 +2,8 @@
 
 namespace Hp\CategoryBundle\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
+
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
-use Symfony\Component\Security\Core\User\EquatableInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -41,9 +38,9 @@ class Category {
     private $idParent;
 
     /**
-     * @ORM\Column(name="category_image",type="string", length=100)
+     * @ORM\Column(name="path",type="string", length=100,nullable=true)
      */
-    private $categoryImage;
+    private $path;
 
     /**
      * @Assert\File(
@@ -62,16 +59,13 @@ class Category {
      * @ORM\Column(name="lvl", type="integer",length=11)
      */
     private $lvl;
-
     private $temp;
-
     private $randomNo;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->randomNo = $this->generateRandomString(10);
     }
-    
+
     /**
      * 
      * @return type
@@ -103,8 +97,6 @@ class Category {
     public function setCategoryName($categoryName) {
         $this->categoryName = $categoryName;
     }
-
-
 
     /**
      * 
@@ -155,19 +147,17 @@ class Category {
     }
 
     public function getWebPath() {
-        
-        return null === $this->categoryImage ? null : $this->getUploadDir() . '/' . $this->categoryImage;
+        return null === $this->path ? null : $this->getUploadDir() . '/' . $this->path;
     }
 
     protected function getUploadRootDir() {
-        
         return __DIR__ . '/../../../../web/' . $this->getUploadDir();
     }
 
-    protected function getUploadDir()
-    {
+    protected function getUploadDir() {
         return 'uploads/category';
     }
+
     /**
      * Get file.
      *
@@ -183,15 +173,16 @@ class Category {
      * @param UploadedFile $file
      */
     public function setFile(UploadedFile $file = null) {
+        
+        
         $this->file = $file;
         
-        
-        // check if we have an old image categoryImage
+        // check if we have an old image path
         if (is_file($this->getAbsolutePath())) {
             // store the old name to delete after the update
             $this->temp = $this->getAbsolutePath();
         } else {
-            $this->categoryImage = "initial";
+            $this->path = $this->randomNo  . '.' . $file->getClientOriginalExtension();
         }
     }
 
@@ -200,11 +191,8 @@ class Category {
      * @ORM\PreUpdate()
      */
     public function preUpload() {
-        
-        
         if (null !== $this->getFile()) {
-            
-            $this->categoryImage = $this->randomNo . "." . $this->getFile()->guessExtension();
+            $this->path = $this->getFile()->guessExtension();
         }
     }
 
@@ -217,22 +205,26 @@ class Category {
             return;
         }
 
+        
+        
         // check if we have an old image
         if (isset($this->temp)) {
             // delete the old image
             unlink($this->temp);
-            // clear the temp image categoryImage
+            // clear the temp image path
             $this->temp = null;
         }
 
         // you must throw an exception here if the file cannot be moved
         // so that the entity is not persisted to the database
         // which the UploadedFile move() method does
-        $this->categoryImage =  $this->randomNo . '.' . $this->getFile()->guessExtension();
-        $this->getFile()->move($this->getUploadRootDir(), $this->randomNo . '.' . $this->getFile()->guessExtension());
+        $this->getFile()->move(
+                $this->getUploadRootDir(), $this->randomNo . '.' . $this->getFile()->guessExtension()
+        );
         
         
-        $this->setFile(null);
+        $this->file = null;
+        
     }
 
     /**
@@ -247,18 +239,15 @@ class Category {
      */
     public function removeUpload() {
         if (isset($this->temp)) {
-            echo $this->getUploadRootDir();
-            echo $this->temp;
-            exit;
             unlink($this->temp);
         }
     }
 
     public function getAbsolutePath() {
         
-        $absPath = ($this->categoryImage == null ? null : $this->getUploadRootDir() . '/' . $this->randomNo . '.' . $this->categoryImage);
         
-        return $absPath;
+        
+        return null === $this->path ? null : $this->getUploadRootDir() . '/' . $this->randomNo  . '.' . $this->path;
     }
 
     /**
@@ -274,5 +263,18 @@ class Category {
         }
         return $randomString;
     }
+    
+    public function setPath($path)
+    {
+        $this->path = $path;
+    }
+    /**
+     * 
+     * @return type
+     */
+    public function getPath() {
+        return $this->path;
+    }
+
 
 }

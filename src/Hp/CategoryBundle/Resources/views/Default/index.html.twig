@@ -7,7 +7,7 @@
     </tr>
    {% for asCat in asCategory %}
        <tr>
-           <td> <img src="{{ asset('uploads/logo.png') }}" >{{ asCat.categoryImage }}</td>
+           <td> <img src="{{ asset('uploads/logo.png') }}" >{{ asCat.path }}</td>
            <td> {{ asCat.categoryName }}</td>
            <td> {{ asCat.isActive }}</td>
            <td> <a href="{{ path('_hp_category_delete',{ 'id': asCat.id } ) }}">Delete</a></td>
